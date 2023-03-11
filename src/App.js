@@ -1,23 +1,39 @@
-import logo from './logo.svg';
+import Counters from "./components/Counters";
 import './App.css';
+import { useState } from "react";
 
-function App() {
+function App({ helloWorld }) {
+
+  const [counters, setCounters] = useState([{ value: 10 }, { value: 10 }, { value: 10 }]);
+
+  function onIncrement(index) {
+    counters[index].value++;
+    setCounters([...counters]);
+  }
+
+  function onDecrement(index) {
+    counters[index].value--;
+    setCounters([...counters]);
+  }
+
+  function onDelete(index) {
+    console.log('onDelete', index);
+    counters.splice(index, 1);
+    setCounters([...counters]);
+  }
+
+  function refresh() {
+    setCounters([{ value: 10 }, { value: 10 }, { value: 10 }]);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Counters counters={counters} onIncrement={onIncrement} onDecrement={onDecrement} onDelete={onDelete} />
+      <button className="refresh" onClick={refresh}>Refresh</button>
+
+      <button data-testid="test-text" className="hello-button" onClick={() => {
+        helloWorld();
+      }}><span className="inner-elem">Hello World!</span></button>
     </div>
   );
 }
