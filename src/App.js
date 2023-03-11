@@ -2,9 +2,9 @@ import Counters from "./components/Counters";
 import './App.css';
 import { useState } from "react";
 
-function App({ helloWorld }) {
+function App({ helloWorld, initCounters }) {
 
-  const [counters, setCounters] = useState([{ value: 10 }, { value: 10 }, { value: 10 }]);
+  const [counters, setCounters] = useState(initCounters || [{ value: 10 }, { value: 10 }, { value: 10 }]);
 
   function onIncrement(index) {
     counters[index].value++;
@@ -29,7 +29,7 @@ function App({ helloWorld }) {
   return (
     <div className="App">
       <Counters counters={counters} onIncrement={onIncrement} onDecrement={onDecrement} onDelete={onDelete} />
-      <button className="refresh" onClick={refresh}>Refresh</button>
+      <button className="refresh" aria-label="refresh" disabled={counters.length !== 0 ? 'disabled' : ''} onClick={refresh}>Refresh</button>
 
       <button data-testid="test-text" className="hello-button" onClick={() => {
         helloWorld();
